@@ -3,7 +3,6 @@ const { stock, customers } = require("./promo");
 
 const newOrder = (req, res) => {
     const {order, size, givenName, surname, email, address, city, province, postcode, country} = req.body;
-
     const orderCheck = validateOrder(givenName, surname, email, address, country, order, size);
     res.json({status: orderCheck, error: orderCheck});
 };
@@ -19,7 +18,7 @@ const validateOrder = (givenName, surname, email, address, country, order, size)
         return 'repeat-customer';
     if (customers.filter(customer => { return func.compareData(address, customer.address)}).length > 0)
         return 'repeat-customer';      
-    return validateCountry(country);
+    return validateCountry(country, order, size);
 };
 
 const validateCountry = (country, order, size) => {
@@ -55,8 +54,10 @@ const validateStock = (order, size) => {
             return 'unavailable';
     }
     
-    if (item > 0)
+    if (item != 0) {
         return 'success';
+    }
+
     else      
         return 'unavailable';
 

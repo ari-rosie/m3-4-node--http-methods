@@ -22,6 +22,7 @@ express()
 
   
   // endpoints
+  .get('/order-confirmed', (req, res) => res.sendFile(__dirname + '/public/order-confirmed.html'))
   .post('/order', handlers.newOrder)
   .get('*', (req, res) => res.send('Dang. 404.'))
   .listen(8000, () => console.log(`Listening on port 8000`));
